@@ -4,7 +4,13 @@ import {
   MOVIE_KEYWORDS,
   MOVIE_ACTORS,
   MOVIE_DIRECTORS,
-  MOVIE_PRODUCTION_COMPANIES
+  MOVIE_PRODUCTION_COMPANIES,
+  MOVIES,
+  GENRES,
+  DIRECTORS,
+  KEYWORDS,
+  PRODUCTION_COMPANIES,
+  ACTORS
 } from "../src/table-names";
 import { Database } from "../src/database";
 import { tableInfo } from "../src/queries/table-info";
@@ -13,31 +19,41 @@ import { minutes, Log } from "./utils";
 const CREATE_MOVIE_GENRES_TABLE = `create table ${MOVIE_GENRES}(
   movie_id integer NOT NULL,
   genre_id integer NOT NULL,
-  primary key (movie_id, genre_id)
+  primary key (movie_id, genre_id),
+  foreign key (movie_id) REFERENCES ${MOVIES} (id) ON DELETE RESTRICT,
+  foreign key (genre_id) REFERENCES ${GENRES} (id) ON DELETE RESTRICT
 )`;
 
 const CREATE_MOVIE_ACTORS_TABLE = `create table ${MOVIE_ACTORS}(
   movie_id integer NOT NULL,
   actor_id integer NOT NULL,
   primary key (movie_id, actor_id)
+  foreign key (movie_id) REFERENCES ${MOVIES} (id) ON DELETE RESTRICT,
+  foreign key (actor_id) REFERENCES ${ACTORS} (id) ON DELETE RESTRICT
 )`;
 
 const CREATE_MOVIE_DIRECTORS_TABLE = `create table ${MOVIE_DIRECTORS}(
   movie_id integer NOT NULL,
   director_id integer NOT NULL,
-  primary key (movie_id, director_id)
+  primary key (movie_id, director_id),
+  foreign key (movie_id) REFERENCES ${MOVIES} (id) ON DELETE RESTRICT,
+  foreign key (director_id) REFERENCES ${DIRECTORS} (id) ON DELETE RESTRICT
 )`;
 
 const CREATE_MOVIE_KEYWORDS_TABLE = `create table ${MOVIE_KEYWORDS}(
   movie_id integer NOT NULL,
   keyword_id integer NOT NULL,
-  primary key (movie_id, keyword_id)
+  primary key (movie_id, keyword_id),
+  foreign key (movie_id) REFERENCES ${MOVIES} (id) ON DELETE RESTRICT,
+  foreign key (keyword_id) REFERENCES ${KEYWORDS} (id) ON DELETE RESTRICT
 )`;
 
 const CREATE_MOVIE_PRODUCTION_COMPANIES_TABLE = `create table ${MOVIE_PRODUCTION_COMPANIES}(
   movie_id integer NOT NULL,
   company_id integer NOT NULL,
-  primary key (movie_id, company_id)
+  primary key (movie_id, company_id),
+  foreign key (movie_id) REFERENCES ${MOVIES} (id) ON DELETE RESTRICT,
+  foreign key (company_id) REFERENCES ${PRODUCTION_COMPANIES} (id) ON DELETE RESTRICT
 )`;
 
 describe("Insert Combined Data", () => {
